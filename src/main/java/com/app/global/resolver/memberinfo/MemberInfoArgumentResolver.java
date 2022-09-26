@@ -25,7 +25,7 @@ public class MemberInfoArgumentResolver implements HandlerMethodArgumentResolver
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         boolean hasMemberInfoAnnotation = parameter.hasParameterAnnotation(MemberInfo.class);
-        boolean hasMemberInfoDto = MemberInfo.class.isAssignableFrom(parameter.getParameterType());
+        boolean hasMemberInfoDto = MemberInfoDto.class.isAssignableFrom(parameter.getParameterType());
         return hasMemberInfoDto && hasMemberInfoAnnotation;
     }
 
