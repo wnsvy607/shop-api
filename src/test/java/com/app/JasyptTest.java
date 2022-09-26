@@ -7,7 +7,7 @@ public class JasyptTest {
 
     @Test
     public void jasyptTest() {
-        String password = "";
+        String password = "1";
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         encryptor.setPoolSize(4);
         encryptor.setPassword(password);
