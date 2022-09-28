@@ -43,6 +43,9 @@ dependencies {
 	//StringEscapeUtils 를 위한것
 	implementation 'org.apache.commons:commons-text:1.9'
 
+
+	//Spring Security
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
 }
 
 dependencyManagement {

@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum MemberType {
-    KAKAO;
+    KAKAO,
+    NAVER,
+    GOOGLE,
+    LOCAL;
 
     public static MemberType from(String type) {
         return MemberType.valueOf(type.toUpperCase());

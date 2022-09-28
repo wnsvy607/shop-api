@@ -1,5 +1,6 @@
 package com.app.api.login.controller;
 
+import com.app.api.login.dto.LoginResponseDto;
 import com.app.api.login.dto.OauthLoginDto;
 import com.app.api.login.service.OauthLoginService;
 import com.app.api.login.validator.OauthValidator;
@@ -25,15 +26,15 @@ public class OauthLoginController {
     @Tag(name = "authentication")
     @Operation(summary = "소셜 로그인 API", description = "소셜 로그인 API")
     @PostMapping("/login")
-    public ResponseEntity<OauthLoginDto.Response> oauthLogin(@RequestBody OauthLoginDto.Request oauthLoginRequestDto,
-                                                             HttpServletRequest httpServletRequest){
+    public ResponseEntity<LoginResponseDto> oauthLogin(@RequestBody OauthLoginDto oauthLoginRequestDto,
+                                                       HttpServletRequest httpServletRequest){
 
         String authorizationHeader = httpServletRequest.getHeader("Authorization");
         AuthorizationHeaderUtils.validateAuthorization(authorizationHeader);
         oauthValidator.validateMemberType(oauthLoginRequestDto.getMemberType());
 
         String accessToken = authorizationHeader.split(" ")[1];
-        OauthLoginDto.Response jwtTokenResponseDto = oauthLoginService
+        LoginResponseDto jwtTokenResponseDto = oauthLoginService
                 .oauthLogin(accessToken, MemberType.from(oauthLoginRequestDto.getMemberType()));
 
         return ResponseEntity.ok(jwtTokenResponseDto);

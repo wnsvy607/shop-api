@@ -1,5 +1,6 @@
 package com.app.api.login.service;
 
+import com.app.api.login.dto.LoginResponseDto;
 import com.app.api.login.dto.OauthLoginDto;
 import com.app.domain.member.constant.MemberType;
 import com.app.domain.member.constant.Role;
@@ -25,7 +26,7 @@ public class OauthLoginService {
 
     private final MemberService memberService;
     private final TokenManager tokenManager;
-    public OauthLoginDto.Response oauthLogin(String accessToken, MemberType memberType){
+    public LoginResponseDto oauthLogin(String accessToken, MemberType memberType){
 
         SocialLoginApiService socialLoginApiService =
                 SocialLoginApiServiceFactory.getSocialLoginApiService(memberType);
@@ -51,6 +52,6 @@ public class OauthLoginService {
             oauthMember.updateRefreshToken(jwtTokenDto);
         }
 
-        return OauthLoginDto.Response.of(jwtTokenDto);
+        return LoginResponseDto.of(jwtTokenDto);
     }
 }

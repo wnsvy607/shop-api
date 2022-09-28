@@ -26,7 +26,8 @@ public class KakaoTokenController {
     }
 
     @GetMapping("/oauth/kakao/callback")
-    public @ResponseBody String loginCallback(String code) {    //code는 인가코드
+    @ResponseBody
+    public String loginCallback(String code) {    //code는 인가코드
         String contentType = "application/x-www-form-urlencoded;charset=utf-8";
         KakaoTokenDto.Request kakaoTokenRequestDto = KakaoTokenDto.Request.builder()
                 .client_id(clientId)
@@ -36,6 +37,7 @@ public class KakaoTokenController {
                 .redirect_uri("http://3.34.149.238:8080/oauth/kakao/callback")
                 .build();
         KakaoTokenDto.Response kakaoToken = kakaoTokenClient.requestKakaoToken(contentType, kakaoTokenRequestDto);
+        //login
         return "kakao token : " + kakaoToken;
     }
 
