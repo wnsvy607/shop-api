@@ -1,10 +1,13 @@
 package com.app.api.member.dto;
 
+import com.app.domain.common.Address;
 import com.app.domain.member.constant.Role;
 import com.app.domain.member.entity.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.LocalDate;
 
 @Getter @Builder
 public class MemberInfoResponseDto {
@@ -19,6 +22,12 @@ public class MemberInfoResponseDto {
     private String profile;
     @Schema(description = "회원의 역할", example = "USER",required = true)
     private Role role;
+    @Schema(description = "회원 주소", example = "USER", required = true)
+    private Address homeAddress;
+    @Schema(description = "생년월일", example = "2022-10-02", required = true)
+    private LocalDate birthDate;
+    @Schema(description = "회원 연락처", example = "01029267553", required = true)
+    private String contact;
 
     public static MemberInfoResponseDto of(Member member) {
         return MemberInfoResponseDto.builder()
@@ -26,7 +35,10 @@ public class MemberInfoResponseDto {
                 .memberName(member.getMemberName())
                 .email(member.getEmail())
                 .profile(member.getProfile())
+                .homeAddress(member.getHomeAddress())
                 .role(member.getRole())
+                .birthDate(member.getBirthDate())
+                .contact(member.getContact())
                 .build();
     }
 }

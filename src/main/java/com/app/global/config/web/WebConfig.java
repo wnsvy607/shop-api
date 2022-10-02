@@ -63,7 +63,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "/api/logout",
                         "/api/health",
                         "/api/basic/signup",
-                        "/api/basic/login");
+                        "/api/basic/login",
+                        "/api/member/test");
         registry.addInterceptor(adminAuthorizationInterceptor)
                 .order(2)
                 .addPathPatterns("/api/admin/**");
