@@ -4,12 +4,11 @@ server:
     context-path: /
 
 spring:
-  # todo 개발 데이터베이스 연결
   datasource:
-    url: jdbc:h2:mem:test
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: ENC(mCQWG3wkSbLuNRXWuIUpHaoFWLkb3DHdGXVFwg8h3TPMWS38gw3p8NdJUqSLLeVOxQssvG3je47GuAyZh2wzCarqayBSSGqeBog1CJNqYuJPun+nY4aDUCVyLILEGOmtpk6dA1PbZ9Y6ASI08Wu+DLphm65no4SIjL7MG7PBmis4EIMb3X2S8C6BkERJkXyq)
+    username: ENC(XkM9BQjcc07iKvc2avyN7dYrZ7kQyFZR)
+    password: ENC(xDrfzOmNQAdLiLzOn0OUPMHlkdSN4FtT)
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
@@ -33,7 +32,7 @@ spring:
       matching-strategy: ant_path_matcher
 logging:
   level:
-    org.hibernate.type: trace # 콘솔창에 조건에 바인딩되느 값 및 조회 결과 출력
+    org.hibernate.type: trace # 콘솔창에 조건에 바인딩되는 값 및 조회 결과 출력
     com.app: debug # todo 패키지 수정
 
 feign:

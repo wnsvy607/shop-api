@@ -46,6 +46,7 @@ public class Member extends BaseTimeEntity {
     @Embedded
     private Address homeAddress;
 
+    @Column(length = 15)
     private String contact;
 
     private LocalDate birthDate;
