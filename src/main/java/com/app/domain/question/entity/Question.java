@@ -57,17 +57,17 @@ public class Question {
     }
 
     //삭제시 사용
-    public void ChangeQuestionStatus(GeneralStatus generalStatus){
-        this.generalStatus = generalStatus;
+    public void delete(GeneralStatus generalStatus){
+        this.generalStatus = GeneralStatus.INACTIVE;
     }
 
     //쓰일지는 미지수(비밀글이냐 아니냐 설정)
-    public void ChangeQuestionAccess(QuestionAccess questionAccess) {
+    public void changeQuestionAccess(QuestionAccess questionAccess) {
         this.questionAccess = questionAccess;
     }
 
     //답변 등록시, 답변 삭제시 사용
-    public void ChangeAnswerStatus(AnswerStatus answerStatus) {
+    public void changeAnswerStatus(AnswerStatus answerStatus) {
         this.answerStatus = answerStatus;
     }
 

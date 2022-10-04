@@ -3,6 +3,7 @@ package com.app.domain.answer.entity;
 import com.app.domain.common.constant.GeneralStatus;
 import com.app.domain.member.entity.Member;
 import com.app.domain.question.entity.Question;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,7 +22,7 @@ public class Answer {
     private Question question;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member member;
+    private Member author;
 
     @Column(nullable = false)
     private String content;
@@ -29,5 +30,20 @@ public class Answer {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private GeneralStatus generalStatus;
+
+    @Builder
+    public Answer(Question question, Member author, String content, GeneralStatus generalStatus) {
+        this.question = question;
+        this.author = author;
+        this.content = content;
+        this.generalStatus = generalStatus;
+    }
+
+    public void changeContents(String content){
+        this.content = content;
+    }
+    public void delete(){
+        this.generalStatus = GeneralStatus.INACTIVE;
+    }
 
 }

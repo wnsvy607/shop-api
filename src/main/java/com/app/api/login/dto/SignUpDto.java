@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 
 
-@Getter @Setter
+@Getter
 public class SignUpDto {
 
     @Schema(description = "이메일", example = "test1234@naver.com", required = true)
@@ -48,5 +48,9 @@ public class SignUpDto {
                 .birthDate(this.birthDate)
                 .homeAddress(this.homeAddress)
                 .build();
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

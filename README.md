@@ -1,5 +1,5 @@
-# SpringTemplate
-Spring Template 
+# Micro garden
+Spring API Server  
 
 
 Dependencies
@@ -7,5 +7,5 @@ Dependencies
 2. Spring Datat JPA
 3. Validation
 4. Lombok
-5. H2 Database
+5. MySQL Database
 6. Thymeleaf
