@@ -3,7 +3,7 @@ package com.app.domain.question.entity;
 import com.app.domain.member.entity.Member;
 import com.app.domain.question.constant.AnswerStatus;
 import com.app.domain.question.constant.QuestionAccess;
-import com.app.domain.question.constant.QuestionStatus;
+import com.app.domain.common.constant.GeneralStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class Question {
     @Column(length = 50, nullable = false)
     private String title;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 300, nullable = false)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,7 +31,7 @@ public class Question {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
-    private QuestionStatus questionStatus;
+    private GeneralStatus generalStatus;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
@@ -42,11 +42,11 @@ public class Question {
     private AnswerStatus answerStatus;
 
     @Builder
-    public Question(String title, String content, Member member, QuestionStatus questionStatus, QuestionAccess questionAccess, AnswerStatus answerStatus) {
+    public Question(String title, String content, Member member, GeneralStatus generalStatus, QuestionAccess questionAccess, AnswerStatus answerStatus) {
         this.title = title;
         this.content = content;
         this.member = member;
-        this.questionStatus = questionStatus;
+        this.generalStatus = generalStatus;
         this.questionAccess = questionAccess;
         this.answerStatus = answerStatus;
     }
@@ -57,8 +57,8 @@ public class Question {
     }
 
     //삭제시 사용
-    public void ChangeQuestionStatus(QuestionStatus questionStatus){
-        this.questionStatus = questionStatus;
+    public void ChangeQuestionStatus(GeneralStatus generalStatus){
+        this.generalStatus = generalStatus;
     }
 
     //쓰일지는 미지수(비밀글이냐 아니냐 설정)
