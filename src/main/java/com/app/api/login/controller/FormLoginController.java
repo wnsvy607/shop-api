@@ -6,6 +6,8 @@ import com.app.api.login.dto.SignUpDto;
 import com.app.api.login.service.FormLoginService;
 import com.app.domain.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,11 @@ public class FormLoginController {
 
     @Tag(name = "authentication")
     @Operation(summary = "폼 로그인 API", description = "폼 로그인 API")
+    @ApiResponses({
+            @ApiResponse(responseCode = "500", description = "서버 오류 발생"),
+            @ApiResponse(responseCode = "M-003", description = "해당 회원은 존재하지 않습니다."),
+            @ApiResponse(responseCode = "A-009", description = "패스워드가 올바르지 않습니다.")
+    })
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> formLogin(@RequestBody BasicLoginDto formLoginRequestDto){
         //회원가입은 이미 되어있다고 가정.
@@ -35,8 +42,13 @@ public class FormLoginController {
         return ResponseEntity.ok(jwtTokenResponseDto);
     }
 
+
     @Tag(name = "authentication")
     @Operation(summary = "회원 가입 API", description = "회원 가입 API")
+    @ApiResponses({
+            @ApiResponse(responseCode = "500", description = "서버 오류 발생"),
+            @ApiResponse(responseCode = "M-002", description = "이미 가입된 회원 입니다. MemberType: LOCAL")
+    })
     @PostMapping("/signup")
     public ResponseEntity<String> singUp(@RequestBody SignUpDto signUpDto){
 
