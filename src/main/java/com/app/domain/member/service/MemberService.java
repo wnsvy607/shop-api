@@ -6,6 +6,7 @@ import com.app.global.error.ErrorCode;
 import com.app.global.error.exception.AuthenticationException;
 import com.app.global.error.exception.BusinessException;
 import com.app.global.error.exception.EntityNotFoundException;
+import com.app.global.error.exception.MemberDuplicationException;
 import lombok.RequiredArgsConstructor;
 import org.bouncycastle.jcajce.provider.symmetric.DES;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class MemberService {
     private void validateDuplicateMember(Member member) {
         Optional<Member> optionalMember = memberRepository.findByEmail(member.getEmail());
         if (optionalMember.isPresent()) {
-            throw new BusinessException(ErrorCode.ALREADY_REGISTERED_MEMBER);
+            throw new MemberDuplicationException(ErrorCode.ALREADY_REGISTERED_MEMBER,optionalMember.get().getMemberType());
         }
     }
 

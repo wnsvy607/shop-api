@@ -2,6 +2,8 @@ package com.app.global.error;
 
 import com.app.global.error.exception.BusinessException;
 import com.app.global.error.exception.ErrorResponse;
+import com.app.global.error.exception.MemberDuplicationException;
+import com.sun.jdi.request.DuplicateRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +50,17 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 회원가입시 같은 이메일을 가진 유저가 이미 있을 때 어디로 가입되어 있는지 반환
+     */
+    @ExceptionHandler(value = { MemberDuplicationException.class })
+    protected ResponseEntity<ErrorResponse> handleDuplicateRequestException(MemberDuplicationException e) {
+        log.error("MemberDuplicationException", e);
+        ErrorResponse errorResponse = ErrorResponse.of(e.getErrorCode().getErrorCode(),
+                e.getMessage() + " MemberType: " + e.getMemberType());
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+                .body(errorResponse);
+    }
+    /**
      * 비즈니스 로직 실행 중 오류 발생
      */
     @ExceptionHandler(value = { BusinessException.class })
@@ -57,6 +70,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(e.getErrorCode().getHttpStatus())
                 .body(errorResponse);
     }
+
 
     /**
      * 나머지 예외 발생
