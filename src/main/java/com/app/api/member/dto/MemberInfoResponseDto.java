@@ -29,7 +29,7 @@ public class MemberInfoResponseDto {
     @Schema(description = "회원 연락처", example = "01029267553", required = true)
     private String contact;
 
-    public static MemberInfoResponseDto of(Member member) {
+    public static MemberInfoResponseDto from(Member member) {
         return MemberInfoResponseDto.builder()
                 .memberId(member.getMemberId())
                 .memberName(member.getMemberName())

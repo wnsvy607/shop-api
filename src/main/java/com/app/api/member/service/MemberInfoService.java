@@ -18,14 +18,14 @@ public class MemberInfoService {
     @Transactional(readOnly = true)
     public MemberInfoResponseDto getMemberInfo(Long memberId) {
         Member member = memberService.findMemberByMemberId(memberId);
-        return MemberInfoResponseDto.of(member);
+        return MemberInfoResponseDto.from(member);
     }
 
     @Transactional(readOnly = true)
     public List<MemberInfoResponseDto> getAllMembers() {
         List<Member> members = memberService.findAllMembers();
         List<MemberInfoResponseDto> memberInfoResponseDtos =
-                members.stream().map(m -> MemberInfoResponseDto.of(m))
+                members.stream().map(m -> MemberInfoResponseDto.from(m))
                         .collect(Collectors.toList());
         return memberInfoResponseDtos;
     }
