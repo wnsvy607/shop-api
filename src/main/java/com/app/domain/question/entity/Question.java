@@ -2,7 +2,7 @@ package com.app.domain.question.entity;
 
 import com.app.domain.member.entity.Member;
 import com.app.domain.question.constant.AnswerStatus;
-import com.app.domain.question.constant.QuestionAccess;
+import com.app.domain.question.constant.AccessLevel;
 import com.app.domain.common.constant.GeneralStatus;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,19 +35,19 @@ public class Question {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
-    private QuestionAccess questionAccess;
+    private AccessLevel accessLevel;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private AnswerStatus answerStatus;
 
     @Builder
-    public Question(String title, String content, Member member, GeneralStatus generalStatus, QuestionAccess questionAccess, AnswerStatus answerStatus) {
+    public Question(String title, String content, Member member, GeneralStatus generalStatus, AccessLevel accessLevel, AnswerStatus answerStatus) {
         this.title = title;
         this.content = content;
         this.member = member;
         this.generalStatus = generalStatus;
-        this.questionAccess = questionAccess;
+        this.accessLevel = accessLevel;
         this.answerStatus = answerStatus;
     }
 
@@ -62,8 +62,8 @@ public class Question {
     }
 
     //쓰일지는 미지수(비밀글이냐 아니냐 설정)
-    public void changeQuestionAccess(QuestionAccess questionAccess) {
-        this.questionAccess = questionAccess;
+    public void changeQuestionAccess(AccessLevel accessLevel) {
+        this.accessLevel = accessLevel;
     }
 
     //답변 등록시, 답변 삭제시 사용

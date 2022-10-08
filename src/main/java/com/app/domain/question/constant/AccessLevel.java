@@ -1,6 +1,6 @@
 package com.app.domain.question.constant;
 
-public enum QuestionAccess {
+public enum AccessLevel {
     PROTECTED,
     PUBLIC
 }

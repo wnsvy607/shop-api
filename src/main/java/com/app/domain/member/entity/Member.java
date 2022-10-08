@@ -78,4 +78,14 @@ public class Member extends BaseTimeEntity {
     public void expireRefreshToken(LocalDateTime now) {
         this.tokenExpirationTime = now;
     }
+
+    public String getBlindedName(){
+        String blindedName = this.getMemberName();
+        int length = blindedName.length();
+        if (length > 1) {
+            blindedName = blindedName.substring(0, 1) + '*' * (length - 2)
+                    + blindedName.substring(length - 1);
+        }
+        return blindedName;
+    }
 }

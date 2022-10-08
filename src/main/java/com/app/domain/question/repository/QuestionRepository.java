@@ -10,6 +10,10 @@ import java.util.List;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-    @Query("select q from Question q where q.generalStatus = 'ACTIVE'  order by q.questionId DESC")
+    @Query("select q " +
+            "from Question q " +
+            "where q.generalStatus = 'ACTIVE'  " +
+            "order by q.questionId DESC")
+    //join fetch 처리가 불가능함(메모리에 적재되어 join fetch 됨)
     public Page<Question> findAllOrderByQuestionId(Pageable pageable);
 }

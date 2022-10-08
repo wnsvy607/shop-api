@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @Tag(name = "member", description = "회원 API")
-@RestController
-@RequestMapping("/api/member")
 @RequiredArgsConstructor
+@RequestMapping("/api/member")
+@RestController
 public class MemberInfoController {
 
     private final TokenManager tokenManager;
@@ -55,3 +55,7 @@ public class MemberInfoController {
     }
 
 }
+
+
+
+

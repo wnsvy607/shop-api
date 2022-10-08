@@ -8,7 +8,6 @@ import com.app.global.error.exception.BusinessException;
 import com.app.global.error.exception.EntityNotFoundException;
 import com.app.global.error.exception.MemberDuplicationException;
 import lombok.RequiredArgsConstructor;
-import org.bouncycastle.jcajce.provider.symmetric.DES;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,6 +57,11 @@ public class MemberService {
 
     public List<Member> findAllMembers() {
         return memberRepository.findAll();
+    }
+
+    public Member findValidMember(Long memberId){
+        return memberRepository.findById(memberId).
+                orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_NOT_EXISTS));
     }
 
 }
