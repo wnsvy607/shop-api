@@ -53,6 +53,9 @@ public class QuestionController {
         return ResponseEntity.ok(questionInfoService.postQuestion(memberInfoDto, postQuestionRequestDto));
     }
 
+
+    @Tag(name = "question")
+    @Operation(summary = "문의글 수정 API", description = "문의글 수정 API")
     @PatchMapping()
     public ResponseEntity<String> modifyQuestion(@MemberInfo MemberInfoDto memberInfoDto,
                                                  @RequestBody PatchQuestionRequestDto patchQuestionRequestDto){
