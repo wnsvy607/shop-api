@@ -1,9 +1,12 @@
 package com.app.api.question.controller;
 
 import com.app.api.question.dto.GetQuestionListResponseDto;
+import com.app.api.question.dto.PatchQuestionRequestDto;
 import com.app.api.question.dto.PostQuestionRequestDto;
 import com.app.api.question.service.QuestionInfoService;
 import com.app.domain.question.service.QuestionService;
+import com.app.global.error.ErrorCode;
+import com.app.global.error.exception.BusinessException;
 import com.app.global.resolver.memberinfo.MemberInfo;
 import com.app.global.resolver.memberinfo.MemberInfoDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -50,11 +53,16 @@ public class QuestionController {
         return ResponseEntity.ok(questionInfoService.postQuestion(memberInfoDto, postQuestionRequestDto));
     }
 
-//    @PatchMapping()
-//    public ResponseEntity<> modifyQuestion(){
-//        //
-//    }
-//
+    @PatchMapping()
+    public ResponseEntity<String> modifyQuestion(@MemberInfo MemberInfoDto memberInfoDto,
+                                                 @RequestBody PatchQuestionRequestDto patchQuestionRequestDto){
+        if(!questionInfoService.modifyQuestion(memberInfoDto, patchQuestionRequestDto)){
+            throw new BusinessException(ErrorCode.UPDATE_FAILED);
+        }
+        String result = "게시물 정보 수정을 완료하였습니다.";
+        return ResponseEntity.ok(result);
+    }
+
 //    @PatchMapping
 //    public ResponseEntity<> deleteQuestion(){
 //        //

@@ -12,7 +12,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create  # 직접 ddl 문을 써주는게 좋긴하다.
+      ddl-auto: update  # 직접 ddl 문을 써주는게 좋긴하다.
     show-sql: true # 콘솔창에 sql 출력
     properties:
       hibernate:

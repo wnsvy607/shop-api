@@ -51,7 +51,7 @@ public class Question {
         this.answerStatus = answerStatus;
     }
 
-    public void ChangeContents(String title, String content){
+    public void changeContents(String title, String content){
         this.title = title;
         this.content = content;
     }
@@ -62,7 +62,7 @@ public class Question {
     }
 
     //쓰일지는 미지수(비밀글이냐 아니냐 설정)
-    public void changeQuestionAccess(AccessLevel accessLevel) {
+    public void changeAccessLevel(AccessLevel accessLevel) {
         this.accessLevel = accessLevel;
     }
 

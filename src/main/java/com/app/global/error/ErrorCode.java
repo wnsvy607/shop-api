@@ -25,7 +25,12 @@ public enum ErrorCode {
     INVALID_MEMBER_TYPE(HttpStatus.BAD_REQUEST,"M-001" ,"잘못된 회원 타입입니다. (memberType : KAKAO)" ),
     ALREADY_REGISTERED_MEMBER(HttpStatus.BAD_REQUEST, "M-002", "이미 가입된 회원 입니다."),
     MEMBER_NOT_EXISTS(HttpStatus.BAD_REQUEST, "M-003" , "해당 회원은 존재하지 않습니다."),
-    ;
+    UNAUTHORIZED_MEMBER(HttpStatus.UNAUTHORIZED, "M-004" , "해당 회원은 접근 권한이 없습니다."),
+
+
+
+    UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Q-001", "문의 게시글 업데이트에 실패했습니다."),
+    QUESTION_NOT_EXISTS(HttpStatus.BAD_REQUEST, "Q-002", "해당 게시글은 존재하지 않습니다.");
 
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String message){
