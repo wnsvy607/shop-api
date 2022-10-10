@@ -1,9 +1,11 @@
 package com.app.api.question.controller;
 
+import com.app.api.question.dto.GetOneQuestionResponseDto;
 import com.app.api.question.dto.GetQuestionListResponseDto;
 import com.app.api.question.dto.PatchQuestionRequestDto;
 import com.app.api.question.dto.PostQuestionRequestDto;
 import com.app.api.question.service.QuestionInfoService;
+import com.app.domain.question.entity.Question;
 import com.app.domain.question.service.QuestionService;
 import com.app.global.error.ErrorCode;
 import com.app.global.error.exception.BusinessException;
@@ -29,21 +31,31 @@ public class QuestionController {
 
     @Tag(name = "question")
     @Operation(summary = "문의글 조회 API", description = "문의글 조회 API")
-    @GetMapping("/list")
+    @GetMapping("/any/list")
     public ResponseEntity<List<GetQuestionListResponseDto>> getQuestionList(@PageableDefault(size = 10) Pageable pageable) {
 
         List<GetQuestionListResponseDto> getQuestionListResponseDtoList =
                 questionInfoService.getQuestionListDto(pageable);
         return ResponseEntity.ok(getQuestionListResponseDtoList);
     }
+    @Tag(name = "question")
+    @Operation(summary = "문의글 내용 조회 API", description = "문의글 내용 조회 API")
+    @GetMapping("/any/one")
+    public ResponseEntity<GetOneQuestionResponseDto> getPublicQuestion(@RequestParam Long questionId) {
+        GetOneQuestionResponseDto getOneQuestionResponseDto = questionInfoService.getPublicQuestion(questionId);
+        return ResponseEntity.ok(getOneQuestionResponseDto);
+    }
 
-//    @GetMapping()
-//    public ResponseEntity<QuestionListResponseDto> getOneQuestion(@MemberInfo MemberInfoDto memberInfoDto) {
-//          //a. 비밀 게시글일 경우
-//          //1. 어드민인지 2. 아니라면 작성자인지 검증
-//          //b. 아니라면 모두 열람이 가능
-//
-//    }
+    @Tag(name = "question")
+    @Operation(summary = "문의글 내용 조회 API(회원)", description = "문의글 내용 조회 API(회원)")
+    @GetMapping("/one")
+    public ResponseEntity<GetOneQuestionResponseDto> getOneQuestion(@MemberInfo MemberInfoDto memberInfoDto,
+                                                                    @RequestParam Long questionId) {
+        GetOneQuestionResponseDto getOneQuestionResponseDto = questionInfoService.getOneQuestion(questionId, memberInfoDto);
+        return ResponseEntity.ok(getOneQuestionResponseDto);
+    }
+
+
 
     @Tag(name = "question")
     @Operation(summary = "문의글 게시 API", description = "문의글 게시 API")

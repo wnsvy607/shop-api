@@ -1,10 +1,13 @@
 package com.app.api.question.service;
 
+import com.app.api.question.dto.GetOneQuestionResponseDto;
 import com.app.api.question.dto.GetQuestionListResponseDto;
 import com.app.api.question.dto.PatchQuestionRequestDto;
 import com.app.api.question.dto.PostQuestionRequestDto;
+import com.app.domain.member.constant.Role;
 import com.app.domain.member.entity.Member;
 import com.app.domain.member.service.MemberService;
+import com.app.domain.question.constant.AccessLevel;
 import com.app.domain.question.entity.Question;
 import com.app.domain.question.repository.QuestionRepository;
 import com.app.domain.question.service.QuestionService;
@@ -47,11 +50,11 @@ public class QuestionInfoService {
 
     public boolean modifyQuestion(MemberInfoDto memberInfoDto, PatchQuestionRequestDto patchQuestionRequestDto) {
         Question question = questionService.getOneQuestion(patchQuestionRequestDto.getQuestionId());
-        if(!question.getMember().getMemberId().equals(memberInfoDto.getMemberId())){
+        if (!questionService.isAuthor(memberInfoDto.getMemberId(), question)) {
             throw new AuthenticationException(ErrorCode.UNAUTHORIZED_MEMBER);
         }
         //내용 바꾸기
-        question.changeContents(patchQuestionRequestDto.getTitle(),patchQuestionRequestDto.getContent());
+        question.changeContents(patchQuestionRequestDto.getTitle(), patchQuestionRequestDto.getContent());
 
         //접근 권한 수준 바꾸기
         question.changeAccessLevel(patchQuestionRequestDto.getAccessLevel());
@@ -59,4 +62,32 @@ public class QuestionInfoService {
         //해당 과정은 더티체킹을 통해 이루어짐
         return true;
     }
+
+    @Transactional(readOnly = true)
+    public GetOneQuestionResponseDto getOneQuestion(Long questionId, MemberInfoDto memberInfoDto) {
+        Question question = questionService.getOneQuestion(questionId);
+        //b. 비밀 게시물이 아니면 모두 열람이 가능
+        if (question.getAccessLevel().equals(AccessLevel.PUBLIC)) {
+            return GetOneQuestionResponseDto.from(question);
+        }
+        //a. 비밀 게시글일 경우
+        else if (memberInfoDto.getRole().equals(Role.ADMIN)
+                || questionService.isAuthor(memberInfoDto.getMemberId(), question)) {
+            //1. 어드민인지 2. 아니라면 작성자인지 검증
+
+            return GetOneQuestionResponseDto.from(question);
+        } else {
+            throw new AuthenticationException(ErrorCode.UNAUTHORIZED_MEMBER);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public GetOneQuestionResponseDto getPublicQuestion(Long questionId) {
+        Question question = questionService.getOneQuestion(questionId);
+        if (question.getAccessLevel().equals(AccessLevel.PROTECTED)) {
+            throw new AuthenticationException(ErrorCode.NOT_PUBLIC);
+        }
+        return GetOneQuestionResponseDto.from(question);
+    }
+
 }

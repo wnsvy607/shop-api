@@ -17,7 +17,7 @@ public class PatchQuestionRequestDto {
     @Schema(description = "게시글 내용", example = "아오 슈발", required = true)
     private String content;
 
-    @Schema(description = "게시글 내용", example = "아오 슈발", required = false)
+    @Schema(description = "접근 레벨", example = "PUBLIC", required = true)
     private AccessLevel accessLevel;
 
 }

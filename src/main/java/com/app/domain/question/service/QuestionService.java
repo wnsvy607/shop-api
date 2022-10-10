@@ -28,5 +28,10 @@ public class QuestionService {
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.QUESTION_NOT_EXISTS));
     }
 
+    @Transactional(readOnly = true)
+    public boolean isAuthor(Long memberId,Question question){
+        return memberId.equals(question.getMember().getMemberId());
+    }
+
 
 }
