@@ -34,4 +34,8 @@ public class QuestionService {
     }
 
 
+    public Long deleteQuestion(Question question) {
+        question.delete();
+        return question.getQuestionId();
+    }
 }

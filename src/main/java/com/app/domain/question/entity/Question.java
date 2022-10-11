@@ -57,7 +57,7 @@ public class Question {
     }
 
     //삭제시 사용
-    public void delete(GeneralStatus generalStatus){
+    public void delete(){
         this.generalStatus = GeneralStatus.INACTIVE;
     }
 

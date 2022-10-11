@@ -30,7 +30,7 @@ public class QuestionController {
     private final QuestionInfoService questionInfoService;
 
     @Tag(name = "question")
-    @Operation(summary = "문의글 조회 API", description = "문의글 조회 API")
+    @Operation(summary = "문의글 조회 API", description = "문의 글을 페이지 단위로 조회 (내용은 제외) - 로그인 불필요")
     @GetMapping("/any/list")
     public ResponseEntity<List<GetQuestionListResponseDto>> getQuestionList(@PageableDefault(size = 10) Pageable pageable) {
 
@@ -38,8 +38,9 @@ public class QuestionController {
                 questionInfoService.getQuestionListDto(pageable);
         return ResponseEntity.ok(getQuestionListResponseDtoList);
     }
+
     @Tag(name = "question")
-    @Operation(summary = "문의글 내용 조회 API", description = "문의글 내용 조회 API")
+    @Operation(summary = "문의글 내용 조회 API", description = "문의 글 하나의 내용 조회 API  - 로그인 불필요")
     @GetMapping("/any/one")
     public ResponseEntity<GetOneQuestionResponseDto> getPublicQuestion(@RequestParam Long questionId) {
         GetOneQuestionResponseDto getOneQuestionResponseDto = questionInfoService.getPublicQuestion(questionId);
@@ -47,7 +48,7 @@ public class QuestionController {
     }
 
     @Tag(name = "question")
-    @Operation(summary = "문의글 내용 조회 API(회원)", description = "문의글 내용 조회 API(회원)")
+    @Operation(summary = "문의글 내용 조회 API(회원)", description = "문의 글 하나의 내용 조회 API(회원) - 로그인 필요")
     @GetMapping("/one")
     public ResponseEntity<GetOneQuestionResponseDto> getOneQuestion(@MemberInfo MemberInfoDto memberInfoDto,
                                                                     @RequestParam Long questionId) {
@@ -56,30 +57,32 @@ public class QuestionController {
     }
 
 
-
     @Tag(name = "question")
-    @Operation(summary = "문의글 게시 API", description = "문의글 게시 API")
+    @Operation(summary = "문의글 게시 API", description = "문의 글 작성 API - 로그인 필요")
     @PostMapping("")
     public ResponseEntity<Long> postQuestion(@MemberInfo MemberInfoDto memberInfoDto,
-                                         @RequestBody PostQuestionRequestDto postQuestionRequestDto){
+                                             @RequestBody PostQuestionRequestDto postQuestionRequestDto) {
         return ResponseEntity.ok(questionInfoService.postQuestion(memberInfoDto, postQuestionRequestDto));
     }
 
 
     @Tag(name = "question")
-    @Operation(summary = "문의글 수정 API", description = "문의글 수정 API")
+    @Operation(summary = "문의글 수정 API", description = "작성자만 사용 가능")
     @PatchMapping()
     public ResponseEntity<String> modifyQuestion(@MemberInfo MemberInfoDto memberInfoDto,
-                                                 @RequestBody PatchQuestionRequestDto patchQuestionRequestDto){
-        if(!questionInfoService.modifyQuestion(memberInfoDto, patchQuestionRequestDto)){
-            throw new BusinessException(ErrorCode.UPDATE_FAILED);
-        }
-        String result = "게시물 정보 수정을 완료하였습니다.";
+                                                 @RequestBody PatchQuestionRequestDto patchQuestionRequestDto) {
+        Long modifiedQuestionId = questionInfoService.modifyQuestion(memberInfoDto, patchQuestionRequestDto);
+
+        String result = "게시물 정보 수정을 완료하였습니다. ID: " + modifiedQuestionId;
         return ResponseEntity.ok(result);
     }
-
-//    @PatchMapping
-//    public ResponseEntity<> deleteQuestion(){
-//        //
-//    }
+    @Tag(name = "question")
+    @Operation(summary = "문의글 삭제 API", description = "작성자, 관리자만 사용 가능")
+    @PatchMapping("/status")
+    public ResponseEntity<String> deleteQuestion(@MemberInfo MemberInfoDto memberInfoDto,
+                                                 @RequestParam Long questionId) {
+        Long deletedQuestionId = questionInfoService.deleteQuestion(memberInfoDto, questionId);
+        String result = "게시물 삭제를 완료하였습니다. ID: " + deletedQuestionId;
+        return ResponseEntity.ok(result);
+    }
 }

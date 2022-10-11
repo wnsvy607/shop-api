@@ -48,7 +48,7 @@ public class QuestionInfoService {
                 map(GetQuestionListResponseDto::from).collect(Collectors.toList());
     }
 
-    public boolean modifyQuestion(MemberInfoDto memberInfoDto, PatchQuestionRequestDto patchQuestionRequestDto) {
+    public Long modifyQuestion(MemberInfoDto memberInfoDto, PatchQuestionRequestDto patchQuestionRequestDto) {
         Question question = questionService.getOneQuestion(patchQuestionRequestDto.getQuestionId());
         if (!questionService.isAuthor(memberInfoDto.getMemberId(), question)) {
             throw new AuthenticationException(ErrorCode.UNAUTHORIZED_MEMBER);
@@ -60,7 +60,7 @@ public class QuestionInfoService {
         question.changeAccessLevel(patchQuestionRequestDto.getAccessLevel());
 
         //해당 과정은 더티체킹을 통해 이루어짐
-        return true;
+        return question.getQuestionId();
     }
 
     @Transactional(readOnly = true)
@@ -90,4 +90,13 @@ public class QuestionInfoService {
         return GetOneQuestionResponseDto.from(question);
     }
 
+    public Long deleteQuestion(MemberInfoDto memberInfoDto, Long questionId) {
+        Question question = questionService.getOneQuestion(questionId);
+        if (memberInfoDto.getRole().equals(Role.ADMIN)
+                || questionService.isAuthor(memberInfoDto.getMemberId(), question)){
+            return questionService.deleteQuestion(question);
+        } else {
+            throw new AuthenticationException(ErrorCode.UNAUTHORIZED_MEMBER);
+        }
+    }
 }
