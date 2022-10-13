@@ -31,10 +31,6 @@ public class QuestionInfoService {
     private final QuestionRepository questionRepository;
     private final MemberService memberService;
 
-//    문의글 리스트 조회 메서드
-//    public List<GetQuestionListResponseDto> getQuestionListResponseDto() {
-//
-//    }
 
     public Long postQuestion(MemberInfoDto memberInfoDto,
                              PostQuestionRequestDto postQuestionRequestDto) {
@@ -59,7 +55,7 @@ public class QuestionInfoService {
         //접근 권한 수준 바꾸기
         question.changeAccessLevel(patchQuestionRequestDto.getAccessLevel());
 
-        //해당 과정은 더티체킹을 통해 이루어짐
+        //DB 업데이트 과정은 더티체킹을 통해 이루어짐
         return question.getQuestionId();
     }
 
@@ -71,9 +67,9 @@ public class QuestionInfoService {
             return GetOneQuestionResponseDto.from(question);
         }
         //a. 비밀 게시글일 경우
-        else if (memberInfoDto.getRole().equals(Role.ADMIN)
+        else if (memberInfoDto.getRole().isEmployee()
                 || questionService.isAuthor(memberInfoDto.getMemberId(), question)) {
-            //1. 어드민인지 2. 아니라면 작성자인지 검증
+            //1. 어드민, 직원인지 2. 아니라면 작성자인지 검증
 
             return GetOneQuestionResponseDto.from(question);
         } else {
@@ -92,8 +88,8 @@ public class QuestionInfoService {
 
     public Long deleteQuestion(MemberInfoDto memberInfoDto, Long questionId) {
         Question question = questionService.getOneQuestion(questionId);
-        if (memberInfoDto.getRole().equals(Role.ADMIN)
-                || questionService.isAuthor(memberInfoDto.getMemberId(), question)){
+        if (memberInfoDto.getRole().isEmployee()
+                || questionService.isAuthor(memberInfoDto.getMemberId(), question)) {
             return questionService.deleteQuestion(question);
         } else {
             throw new AuthenticationException(ErrorCode.UNAUTHORIZED_MEMBER);

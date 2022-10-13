@@ -1,5 +1,6 @@
 package com.app.domain.member.service;
 
+import com.app.domain.member.constant.Role;
 import com.app.domain.member.entity.Member;
 import com.app.domain.member.repository.MemberRepository;
 import com.app.global.error.ErrorCode;
@@ -7,6 +8,7 @@ import com.app.global.error.exception.AuthenticationException;
 import com.app.global.error.exception.BusinessException;
 import com.app.global.error.exception.EntityNotFoundException;
 import com.app.global.error.exception.MemberDuplicationException;
+import com.app.global.resolver.memberinfo.MemberInfoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

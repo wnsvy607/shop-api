@@ -7,4 +7,7 @@ public enum Role {
     public static Role from(String role) {
         return Role.valueOf(role);
     }
+    public boolean isEmployee(){
+        return this.equals(Role.EMPLOYEE) || this.equals(Role.ADMIN);
+    }
 }
