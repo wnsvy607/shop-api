@@ -99,4 +99,14 @@ public class QuestionInfoService {
             throw new AuthenticationException(ErrorCode.UNAUTHORIZED_MEMBER);
         }
     }
+
+    @Transactional(readOnly = true)
+    public List<GetOneQuestionResponseDto> getAllQuestions() {
+        List<Question> questions = questionService.findAllQuestions();
+        List<GetOneQuestionResponseDto> getOneQuestionResponseDtoList =
+                questions.stream().map(m -> GetOneQuestionResponseDto.from(m))
+                .collect(Collectors.toList());
+        return getOneQuestionResponseDtoList;
+    }
+
 }

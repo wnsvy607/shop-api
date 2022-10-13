@@ -28,6 +28,7 @@ public class GetOneQuestionResponseDto {
     @Schema(description = "답변 여부", example = "UNANSWERED", required = true)
     private AnswerStatus answerStatus;
 
+//   Todo 답변 관련 필드 추가 해야됨
     public static GetOneQuestionResponseDto from(Question question) {
         String authorName = question.getMember().getBlindedName();
 
@@ -35,6 +36,7 @@ public class GetOneQuestionResponseDto {
                 .questionId(question.getQuestionId())
                 .authorName(authorName)
                 .title(question.getTitle())
+                .content(question.getContent())
                 .accessLevel(question.getAccessLevel())
                 .answerStatus(question.getAnswerStatus())
                 .build();

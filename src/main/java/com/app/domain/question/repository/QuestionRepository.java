@@ -14,6 +14,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
             "from Question q " +
             "where q.generalStatus = 'ACTIVE'  " +
             "order by q.questionId DESC")
-    //join fetch 처리가 불가능함(메모리에 적재되어 join fetch 됨)
+    // pageable 은 join fetch 처리가 불가능함(메모리에 적재되어 join fetch 됨)
     public Page<Question> findAllOrderByQuestionId(Pageable pageable);
 }

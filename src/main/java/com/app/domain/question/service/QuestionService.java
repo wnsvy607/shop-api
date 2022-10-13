@@ -38,4 +38,8 @@ public class QuestionService {
         question.delete();
         return question.getQuestionId();
     }
+
+    public List<Question> findAllQuestions() {
+        return questionRepository.findAll();
+    }
 }

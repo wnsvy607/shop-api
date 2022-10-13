@@ -44,15 +44,7 @@ public class MemberInfoController {
 
         return ResponseEntity.ok(memberInfoResponseDto);
     }
-    @Tag(name = "개발자용 테스트 API")
-    @Operation(summary = "모든 회원 정보 조회 API", description = "모든 회원 정보 조회 API")
-    @GetMapping("/test")
-    public ResponseEntity<List<MemberInfoResponseDto>> getMemberInfo()
-    {
-        List<MemberInfoResponseDto> allMembers = memberInfoService.getAllMembers();
 
-        return ResponseEntity.ok(allMembers);
-    }
 
 }
 
