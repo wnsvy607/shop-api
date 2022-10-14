@@ -12,6 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Getter
@@ -33,6 +35,7 @@ public class Member extends BaseTimeEntity {
     @Column(length = 200)
     private String password;
 
+    @Min(2) @Max(10)
     @Column(nullable = false, length = 20)
     private String memberName;
 
