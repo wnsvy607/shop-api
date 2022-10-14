@@ -80,12 +80,23 @@ public class Member extends BaseTimeEntity {
     }
 
     public String getBlindedName(){
-        String blindedName = this.getMemberName();
-        int length = blindedName.length();
-        if (length > 1) {
-            blindedName = blindedName.substring(0, 1) + '*' * (length - 2)
-                    + blindedName.substring(length - 1);
+        String Name = this.getMemberName();
+        int length = Name.length();
+        String blindedName = Name.substring(0, 1);
+        if (length > 2) {
+            for (int i = 0; i < length - 2; i++) {
+                blindedName += '*';
+            }
+            blindedName += Name.substring(length - 1);
+        } else if (length == 2) {
+            blindedName += '*';
         }
         return blindedName;
+    }
+
+    public static Member notExistMember() {
+        return Member.builder()
+                .memberName("없는 회원")
+                .build();
     }
 }

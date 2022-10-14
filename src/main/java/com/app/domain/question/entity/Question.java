@@ -1,5 +1,6 @@
 package com.app.domain.question.entity;
 
+import com.app.domain.answer.entity.Answer;
 import com.app.domain.member.entity.Member;
 import com.app.domain.question.constant.AnswerStatus;
 import com.app.domain.question.constant.AccessLevel;
@@ -9,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor

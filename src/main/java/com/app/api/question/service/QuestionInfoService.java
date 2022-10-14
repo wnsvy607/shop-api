@@ -4,6 +4,8 @@ import com.app.api.question.dto.GetOneQuestionResponseDto;
 import com.app.api.question.dto.GetQuestionListResponseDto;
 import com.app.api.question.dto.PatchQuestionRequestDto;
 import com.app.api.question.dto.PostQuestionRequestDto;
+import com.app.domain.answer.entity.Answer;
+import com.app.domain.answer.service.AnswerService;
 import com.app.domain.member.constant.Role;
 import com.app.domain.member.entity.Member;
 import com.app.domain.member.service.MemberService;
@@ -30,6 +32,7 @@ public class QuestionInfoService {
     private final QuestionService questionService;
     private final QuestionRepository questionRepository;
     private final MemberService memberService;
+    private final AnswerService answerService;
 
 
     public Long postQuestion(MemberInfoDto memberInfoDto,
@@ -62,16 +65,17 @@ public class QuestionInfoService {
     @Transactional(readOnly = true)
     public GetOneQuestionResponseDto getOneQuestion(Long questionId, MemberInfoDto memberInfoDto) {
         Question question = questionService.getOneQuestion(questionId);
+        Answer answer = answerService.getOneAnswerByQuestion(questionId);
         //b. 비밀 게시물이 아니면 모두 열람이 가능
         if (question.getAccessLevel().equals(AccessLevel.PUBLIC)) {
-            return GetOneQuestionResponseDto.from(question);
+            return GetOneQuestionResponseDto.from(question, answer);
         }
         //a. 비밀 게시글일 경우
         else if (memberInfoDto.getRole().isEmployee()
                 || questionService.isAuthor(memberInfoDto.getMemberId(), question)) {
             //1. 어드민, 직원인지 2. 아니라면 작성자인지 검증
 
-            return GetOneQuestionResponseDto.from(question);
+            return GetOneQuestionResponseDto.from(question, answer);
         } else {
             throw new AuthenticationException(ErrorCode.UNAUTHORIZED_MEMBER);
         }
@@ -80,10 +84,11 @@ public class QuestionInfoService {
     @Transactional(readOnly = true)
     public GetOneQuestionResponseDto getPublicQuestion(Long questionId) {
         Question question = questionService.getOneQuestion(questionId);
+        Answer answer = answerService.getOneAnswerByQuestion(questionId);
         if (question.getAccessLevel().equals(AccessLevel.PROTECTED)) {
             throw new AuthenticationException(ErrorCode.NOT_PUBLIC);
         }
-        return GetOneQuestionResponseDto.from(question);
+        return GetOneQuestionResponseDto.from(question, answer);
     }
 
     public Long deleteQuestion(MemberInfoDto memberInfoDto, Long questionId) {
@@ -100,8 +105,10 @@ public class QuestionInfoService {
     public List<GetOneQuestionResponseDto> getAllQuestions() {
         List<Question> questions = questionService.findAllQuestions();
         List<GetOneQuestionResponseDto> getOneQuestionResponseDtoList =
-                questions.stream().map(m -> GetOneQuestionResponseDto.from(m))
-                .collect(Collectors.toList());
+                questions.stream()
+                        .map(q -> GetOneQuestionResponseDto
+                                .from(q, answerService.getOneAnswerByQuestion(q.getQuestionId())))
+                        .collect(Collectors.toList());
         return getOneQuestionResponseDtoList;
     }
 

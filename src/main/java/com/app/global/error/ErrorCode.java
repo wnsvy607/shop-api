@@ -31,7 +31,10 @@ public enum ErrorCode {
 
     UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Q-001", "문의 게시글 업데이트에 실패했습니다."),
     QUESTION_NOT_EXISTS(HttpStatus.BAD_REQUEST, "Q-002", "해당 게시글은 존재하지 않습니다."),
-    NOT_PUBLIC(HttpStatus.BAD_REQUEST,"Q-003" , "비밀 게시글입니다.");
+    NOT_PUBLIC(HttpStatus.BAD_REQUEST,"Q-003" , "비밀 게시글입니다."),
+
+
+    ANSWER_NOT_EXISTS(HttpStatus.BAD_REQUEST, "A-001", "해당 게시물의 답변은 존재하지 않습니다.");
 
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String message){

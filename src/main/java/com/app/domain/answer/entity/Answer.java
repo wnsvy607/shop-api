@@ -22,7 +22,8 @@ public class Answer {
     private Question question;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member author;
+    @JoinColumn(name = "author_id")
+    private Member member;
 
     @Column(nullable = false)
     private String content;
@@ -32,9 +33,9 @@ public class Answer {
     private GeneralStatus generalStatus;
 
     @Builder
-    public Answer(Question question, Member author, String content, GeneralStatus generalStatus) {
+    public Answer(Question question, Member member, String content, GeneralStatus generalStatus) {
         this.question = question;
-        this.author = author;
+        this.member = member;
         this.content = content;
         this.generalStatus = generalStatus;
     }
