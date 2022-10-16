@@ -57,6 +57,9 @@ public class QuestionController {
     }
 
 
+    @Tag(name = "question")
+    @Operation(summary = "문의글 게시 API", description = "문의 글 작성 API - 로그인 필요")
+    @PostMapping("")
     public ResponseEntity<Long> postQuestion(@MemberInfo MemberInfoDto memberInfoDto,
                                              @RequestBody PostQuestionRequestDto postQuestionRequestDto) {
         return ResponseEntity.ok(questionInfoService.postQuestion(memberInfoDto, postQuestionRequestDto));
