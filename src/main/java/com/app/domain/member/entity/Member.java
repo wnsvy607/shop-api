@@ -35,7 +35,6 @@ public class Member extends BaseTimeEntity {
     @Column(length = 200)
     private String password;
 
-    @Min(2) @Max(10)
     @Column(nullable = false, length = 20)
     private String memberName;
 

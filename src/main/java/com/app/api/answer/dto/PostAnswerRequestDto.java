@@ -16,9 +16,6 @@ public class PostAnswerRequestDto {
     @ApiModelProperty(notes = "답변할 문의글 Id", example = "배추에서 벌레가 나왔어요", required = true)
     private Long questionId;
 
-    @ApiModelProperty(notes = "답변자", example = "배추에서 벌레가 나왔어요", required = true)
-    private Long memberId;
-
 
     public Answer toEntity(Question question, Member member) {
         return Answer.builder()

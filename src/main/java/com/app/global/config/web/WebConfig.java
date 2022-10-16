@@ -2,6 +2,7 @@ package com.app.global.config.web;
 
 import com.app.global.interceptor.AdminAuthorizationInterceptor;
 import com.app.global.interceptor.AuthenticationInterceptor;
+import com.app.global.interceptor.EmployeeAuthorizationInterceptor;
 import com.app.global.resolver.memberinfo.MemberInfoArgumentResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
@@ -30,6 +31,8 @@ public class WebConfig implements WebMvcConfigurer {
     private final MemberInfoArgumentResolver memberInfoArgumentResolver;
     private final AdminAuthorizationInterceptor adminAuthorizationInterceptor;
     private final ObjectMapper objectMapper;
+
+    private final EmployeeAuthorizationInterceptor employeeAuthorizationInterceptor;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -69,6 +72,11 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(adminAuthorizationInterceptor)
                 .order(2)
                 .addPathPatterns("/api/admin/**");
+
+        registry.addInterceptor(employeeAuthorizationInterceptor)
+                .order(3)
+                .addPathPatterns("/api/answer/**");
+
     }
 
     //ArgumentResolver 추가
