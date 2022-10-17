@@ -1,5 +1,6 @@
 package com.app.domain.answer.service;
 
+import com.app.api.answer.dto.PatchAnswerRequestDto;
 import com.app.api.answer.dto.PostAnswerRequestDto;
 import com.app.domain.answer.entity.Answer;
 import com.app.domain.answer.repository.AnswerRepository;
@@ -21,10 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AnswerService {
 
     private final AnswerRepository answerRepository;
-    private final QuestionService questionService;
-    private final MemberService memberService;
 
-    public Answer getOneAnswerByQuestion(Long questionId) {
+    public Answer findByQuestion(Long questionId) {
         return answerRepository.findByQuestion(questionId)
                 .orElseGet(() -> Answer.builder()
                         .content("답변이 없습니다.")
@@ -32,15 +31,12 @@ public class AnswerService {
                         .build());
     }
 
-    @Transactional
-    public Long postAnswer(MemberInfoDto memberInfoDto, PostAnswerRequestDto postAnswerRequestDto) {
-        Member member = memberService.findMemberByMemberId(memberInfoDto.getMemberId());
-        Question question = questionService.getOneQuestion(postAnswerRequestDto.getQuestionId());
+    public Answer save(Answer answer) {
+        return answerRepository.save(answer);
+    }
 
-        Answer answer = answerRepository.save(postAnswerRequestDto.toEntity(question, member));
-
-        question.changeAnswerStatus(AnswerStatus.ANSWERED);
-
-        return answer.getAnswerId();
+    public Answer findById(Long answerId) {
+        return answerRepository.findById(answerId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ANSWER_NOT_EXISTS));
     }
 }

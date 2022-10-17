@@ -1,5 +1,6 @@
 package com.app.api.question.service;
 
+import com.app.api.answer.service.AnswerInfoService;
 import com.app.api.question.dto.GetOneQuestionResponseDto;
 import com.app.api.question.dto.GetQuestionListResponseDto;
 import com.app.api.question.dto.PatchQuestionRequestDto;
@@ -30,7 +31,6 @@ import java.util.stream.Collectors;
 public class QuestionInfoService {
 
     private final QuestionService questionService;
-    private final QuestionRepository questionRepository;
     private final MemberService memberService;
     private final AnswerService answerService;
 
@@ -39,7 +39,7 @@ public class QuestionInfoService {
                              PostQuestionRequestDto postQuestionRequestDto) {
         Member member = memberService.findValidMember(memberInfoDto.getMemberId());
         Question question = postQuestionRequestDto.toEntity(member);
-        return questionRepository.save(question).getQuestionId();
+        return questionService.save(question).getQuestionId();
     }
 
     public List<GetQuestionListResponseDto> getQuestionListDto(Pageable pageable) {
@@ -65,7 +65,7 @@ public class QuestionInfoService {
     @Transactional(readOnly = true)
     public GetOneQuestionResponseDto getOneQuestion(Long questionId, MemberInfoDto memberInfoDto) {
         Question question = questionService.getOneQuestion(questionId);
-        Answer answer = answerService.getOneAnswerByQuestion(questionId);
+        Answer answer = answerService.findByQuestion(questionId);
         //b. 비밀 게시물이 아니면 모두 열람이 가능
         if (question.getAccessLevel().equals(AccessLevel.PUBLIC)) {
             return GetOneQuestionResponseDto.from(question, answer);
@@ -84,7 +84,7 @@ public class QuestionInfoService {
     @Transactional(readOnly = true)
     public GetOneQuestionResponseDto getPublicQuestion(Long questionId) {
         Question question = questionService.getOneQuestion(questionId);
-        Answer answer = answerService.getOneAnswerByQuestion(questionId);
+        Answer answer = answerService.findByQuestion(questionId);
         if (question.getAccessLevel().equals(AccessLevel.PROTECTED)) {
             throw new AuthenticationException(ErrorCode.NOT_PUBLIC);
         }
@@ -107,7 +107,7 @@ public class QuestionInfoService {
         List<GetOneQuestionResponseDto> getOneQuestionResponseDtoList =
                 questions.stream()
                         .map(q -> GetOneQuestionResponseDto
-                                .from(q, answerService.getOneAnswerByQuestion(q.getQuestionId())))
+                                .from(q, answerService.findByQuestion(q.getQuestionId())))
                         .collect(Collectors.toList());
         return getOneQuestionResponseDtoList;
     }

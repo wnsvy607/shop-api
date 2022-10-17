@@ -42,4 +42,8 @@ public class QuestionService {
     public List<Question> findAllQuestions() {
         return questionRepository.findAll();
     }
+
+    public Question save(Question question) {
+        return questionRepository.save(question);
+    }
 }
