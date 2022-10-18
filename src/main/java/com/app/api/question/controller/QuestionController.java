@@ -1,9 +1,6 @@
 package com.app.api.question.controller;
 
-import com.app.api.question.dto.GetOneQuestionResponseDto;
-import com.app.api.question.dto.GetQuestionListResponseDto;
-import com.app.api.question.dto.PatchQuestionRequestDto;
-import com.app.api.question.dto.PostQuestionRequestDto;
+import com.app.api.question.dto.*;
 import com.app.api.question.service.QuestionInfoService;
 import com.app.domain.question.entity.Question;
 import com.app.domain.question.service.QuestionService;
@@ -32,11 +29,11 @@ public class QuestionController {
     @Tag(name = "question")
     @Operation(summary = "문의글 조회 API", description = "문의 글을 페이지 단위로 조회 (내용은 제외) - 로그인 불필요")
     @GetMapping("/any/list")
-    public ResponseEntity<List<GetQuestionListResponseDto>> getQuestionList(@PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<GetQuestionPageInfoDto> getQuestionList(Pageable pageable) {
+        GetQuestionPageInfoDto getQuestionPageInfoDto = questionInfoService.getQuestionListDto(pageable);
 
-        List<GetQuestionListResponseDto> getQuestionListResponseDtoList =
-                questionInfoService.getQuestionListDto(pageable);
-        return ResponseEntity.ok(getQuestionListResponseDtoList);
+        //총 페이지 수 + PageableDefault
+        return ResponseEntity.ok(getQuestionPageInfoDto);
     }
 
     @Tag(name = "question")

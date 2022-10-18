@@ -5,6 +5,7 @@ import com.app.domain.question.repository.QuestionRepository;
 import com.app.global.error.ErrorCode;
 import com.app.global.error.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +19,8 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     @Transactional(readOnly = true)
-    public List<Question> getQuestionList(Pageable pageable) {
-        return questionRepository.findAllOrderByQuestionId(pageable).getContent();
+    public Page<Question> getQuestionList(Pageable pageable) {
+        return questionRepository.findAllOrderByQuestionId(pageable);
     }
 
     @Transactional(readOnly = true)

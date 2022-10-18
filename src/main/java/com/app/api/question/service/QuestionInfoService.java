@@ -1,10 +1,7 @@
 package com.app.api.question.service;
 
 import com.app.api.answer.service.AnswerInfoService;
-import com.app.api.question.dto.GetOneQuestionResponseDto;
-import com.app.api.question.dto.GetQuestionListResponseDto;
-import com.app.api.question.dto.PatchQuestionRequestDto;
-import com.app.api.question.dto.PostQuestionRequestDto;
+import com.app.api.question.dto.*;
 import com.app.domain.answer.entity.Answer;
 import com.app.domain.answer.service.AnswerService;
 import com.app.domain.member.constant.Role;
@@ -18,6 +15,7 @@ import com.app.global.error.ErrorCode;
 import com.app.global.error.exception.AuthenticationException;
 import com.app.global.resolver.memberinfo.MemberInfoDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,9 +40,12 @@ public class QuestionInfoService {
         return questionService.save(question).getQuestionId();
     }
 
-    public List<GetQuestionListResponseDto> getQuestionListDto(Pageable pageable) {
-        return questionService.getQuestionList(pageable).stream().
-                map(GetQuestionListResponseDto::from).collect(Collectors.toList());
+    public GetQuestionPageInfoDto getQuestionListDto(Pageable pageable) {
+        Page<Question> page = questionService.getQuestionList(pageable);
+        List<GetQuestionListResponseDto> dtoList = page.getContent()
+                .stream().map(GetQuestionListResponseDto::from)
+                .collect(Collectors.toList());
+        return GetQuestionPageInfoDto.of(dtoList, page.getTotalPages());
     }
 
     public Long modifyQuestion(MemberInfoDto memberInfoDto, PatchQuestionRequestDto patchQuestionRequestDto) {
