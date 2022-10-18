@@ -17,8 +17,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     // pageable 은 join fetch 처리가 불가능함(메모리에 적재되어 join fetch 됨)
     Page<Question> findAllOrderByQuestionId(Pageable pageable);
 
-    boolean hasAnswer(Long questionId);
-
 
 //    @Query("select q " +
 //            "from Question q " +
