@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "answer", description = "답변 조회/생성/수정/삭제 API")
+@Tag(name = "answer", description = "답변 생성/수정/삭제 API")
 @RestController
 @RequestMapping("/api/answer")
 @RequiredArgsConstructor
@@ -40,5 +40,11 @@ public class AnswerController {
         return ResponseEntity.ok(answerId);
     }
 
-
+    @Tag(name = "answer")
+    @Operation(summary = "답변 삭제 API", description = "답변 글 삭제 API - 관리자, 직원만 가능")
+    @PatchMapping("/status")
+    public ResponseEntity<Long> deleteAnswer(@RequestParam Long answerId) {
+        Long deletedId = answerInfoService.delete(answerId);
+        return ResponseEntity.ok(deletedId);
+    }
 }

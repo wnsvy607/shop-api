@@ -31,6 +31,7 @@ public class AnswerService {
                         .build());
     }
 
+    @Transactional
     public Answer save(Answer answer) {
         return answerRepository.save(answer);
     }
@@ -38,5 +39,16 @@ public class AnswerService {
     public Answer findById(Long answerId) {
         return answerRepository.findById(answerId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ANSWER_NOT_EXISTS));
+    }
+
+    @Transactional
+    public Long delete(Answer answer) {
+        answer.delete();
+        return answer.getAnswerId();
+    }
+
+    public boolean hasAnswer(Question question) {
+        return answerRepository.hasAnswer(question.getQuestionId());
+
     }
 }
