@@ -19,6 +19,9 @@ public class GetOneQuestionResponseDto {
     @Schema(description = "익명화된 작성자 이름", example = "최*섭", required = true)
     private String questionAuthorName;
 
+    @Schema(description = "작성자 Id", example = "1", required = true)
+    private Long questionAuthorId;
+
     @Schema(description = "게시글 제목", example = "배추에서 벌레가 나왔어요", required = true)
     private String title;
 
@@ -47,6 +50,7 @@ public class GetOneQuestionResponseDto {
         return GetOneQuestionResponseDto.builder()
                 .questionId(question.getQuestionId())
                 .questionAuthorName(questionAuthorName)
+                .questionAuthorId(question.getMember().getMemberId())
                 .title(question.getTitle())
                 .questionContent(question.getContent())
                 .accessLevel(question.getAccessLevel())
