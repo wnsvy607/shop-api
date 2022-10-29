@@ -12,9 +12,9 @@ import lombok.Getter;
 @Getter
 public class PostQuestionRequestDto {
 
-    @ApiModelProperty(notes = "게시글 제목", example = "배추에서 벌레가 나왔어요", required = true)
+    @ApiModelProperty(notes = "게시글 제목", example = "제목", required = true)
     private String title;
-    @ApiModelProperty(notes = "게시글 내용", example = "이런 슈발", required = true)
+    @ApiModelProperty(notes = "게시글 내용", example = "내용", required = true)
     private String content;
     @ApiModelProperty(notes = "비밀글 여부", example = "PUBLIC", required = true)
     private AccessLevel accessLevel;

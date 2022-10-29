@@ -10,10 +10,10 @@ import lombok.Getter;
 @Getter
 public class PostAnswerRequestDto {
 
-    @ApiModelProperty(notes = "답변 내용", example = "배추에서 벌레가 나왔어요", required = true)
+    @ApiModelProperty(notes = "답변 내용", example = "답변", required = true)
     private String content;
 
-    @ApiModelProperty(notes = "답변할 문의글 Id", example = "배추에서 벌레가 나왔어요", required = true)
+    @ApiModelProperty(notes = "답변할 문의글 Id", example = "12", required = true)
     private Long questionId;
 
 

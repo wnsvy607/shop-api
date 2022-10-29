@@ -1,6 +1,7 @@
 package com.app.domain.question.entity;
 
 import com.app.domain.answer.entity.Answer;
+import com.app.domain.common.BaseEntity;
 import com.app.domain.member.entity.Member;
 import com.app.domain.question.constant.AnswerStatus;
 import com.app.domain.question.constant.AccessLevel;
@@ -16,7 +17,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Question {
+public class Question extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

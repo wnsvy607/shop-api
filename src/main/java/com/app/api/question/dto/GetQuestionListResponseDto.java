@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Builder
 public class GetQuestionListResponseDto {
@@ -27,6 +29,8 @@ public class GetQuestionListResponseDto {
     @Schema(description = "답변 여부", example = "UNANSWERED", required = true)
     private AnswerStatus answerStatus;
 
+    @Schema(description = "답변 생성 시간", example = "")
+    private LocalDateTime questionCreateTime;
 
 
     public static GetQuestionListResponseDto from(Question question) {
@@ -38,6 +42,7 @@ public class GetQuestionListResponseDto {
                 .title(question.getTitle())
                 .accessLevel(question.getAccessLevel())
                 .answerStatus(question.getAnswerStatus())
+                .questionCreateTime(question.getCreateTime())
                 .build();
     }
 

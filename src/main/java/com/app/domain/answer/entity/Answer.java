@@ -1,5 +1,6 @@
 package com.app.domain.answer.entity;
 
+import com.app.domain.common.BaseEntity;
 import com.app.domain.common.constant.GeneralStatus;
 import com.app.domain.member.entity.Member;
 import com.app.domain.question.entity.Question;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Answer {
+public class Answer extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

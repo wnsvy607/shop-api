@@ -8,40 +8,47 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter @Builder
 public class GetOneQuestionResponseDto {
 
-    @Schema(description = "문의 글 아이디", example = "1", required = true)
+    @Schema(description = "문의 글 아이디", example = "1")
     private Long questionId;
 
-    @Schema(description = "익명화된 작성자 이름", example = "최*섭", required = true)
+    @Schema(description = "익명화된 작성자 이름", example = "최*섭")
     private String questionAuthorName;
 
-    @Schema(description = "작성자 Id", example = "1", required = true)
+    @Schema(description = "작성자 Id", example = "1")
     private Long questionAuthorId;
 
-    @Schema(description = "게시글 제목", example = "배추에서 벌레가 나왔어요", required = true)
+    @Schema(description = "게시글 제목", example = "배추에서 벌레가 나왔어요")
     private String title;
 
-    @Schema(description = "게시글 내용", example = "이섭이형 바보", required = true)
+    @Schema(description = "게시글 내용", example = "이섭이형 바보")
     private String questionContent;
 
-    @Schema(description = "접근 레벨", example = "PUBLIC", required = true)
+    @Schema(description = "접근 레벨", example = "PUBLIC")
     private AccessLevel accessLevel;
 
-    @Schema(description = "답변 여부", example = "UNANSWERED", required = true)
+    @Schema(description = "답변 여부", example = "UNANSWERED")
     private AnswerStatus answerStatus;
 
-    @Schema(description = "답변 아이디", example = "1", required = true)
+    @Schema(description = "문의 작성 시간", example = "")
+    private LocalDateTime questionCreateTime;
+
+    @Schema(description = "답변 아이디", example = "1")
     private Long answerId;
 
-    @Schema(description = "답변 내용", example = "맞습니다.", required = true)
+    @Schema(description = "답변 내용", example = "맞습니다.")
     private String answerContent;
 
-    @Schema(description = "답변 작성자 이름", example = "맞습니다.", required = true)
+    @Schema(description = "답변 작성자 이름", example = "최이섭")
     private String answerAuthorName;
+
+    @Schema(description = "답변 작성 시간", example = "")
+    private LocalDateTime answerCreateTime;
 
     public static GetOneQuestionResponseDto from(Question question,Answer answer) {
         String questionAuthorName = question.getMember().getBlindedName();
@@ -55,9 +62,11 @@ public class GetOneQuestionResponseDto {
                 .questionContent(question.getContent())
                 .accessLevel(question.getAccessLevel())
                 .answerStatus(question.getAnswerStatus())
+                .questionCreateTime(question.getCreateTime())
                 .answerId(answer.getAnswerId())
                 .answerContent(answer.getContent())
                 .answerAuthorName(answerAuthorName)
+                .answerCreateTime(answer.getCreateTime())
                 .build();
     }
 }
