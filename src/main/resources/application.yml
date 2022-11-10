@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 9000
   servlet:
     context-path: /
 
@@ -51,7 +51,7 @@ kakao:
 
 token:
   secret: ENC(W9j3yOdJZBudW8SLX/esPX5cIqMYFe4jj2WQ+EV/GwIhUf9cxUh7kQ==) # 임의의 문자열
-  access-token-expiration-time: 900000  # 15분 1000(ms) x 60(s) x 15(m)
+  access-token-expiration-time: 9000000  # 15분 1000(ms) x 60(s) x 15(m)
   refresh-token-expiration-time: 1209600000 # 2주 1000(ms) x 60 (s) x 60(m) x 24(h) x 14(d)
 
 
